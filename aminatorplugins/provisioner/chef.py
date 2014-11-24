@@ -37,6 +37,7 @@ log = logging.getLogger(__name__)
 CommandResult = namedtuple('CommandResult', 'success result')
 CommandOutput = namedtuple('CommandOutput', 'std_out std_err')
 client = pysvn.Client()
+
 class ChefProvisionerPlugin(BaseProvisionerPlugin):
     """
     ChefProvisionerPlugin takes the majority of its behavior from BaseLinuxProvisionerPlugin

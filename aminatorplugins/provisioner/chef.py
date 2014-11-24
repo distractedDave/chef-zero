@@ -23,6 +23,7 @@ aminatorplugins.provisioner.chef
 ================================
 basic chef solo provisioner
 """
+import pysvn
 import logging
 import os
 from collections import namedtuple
@@ -35,7 +36,7 @@ __all__ = ('ChefProvisionerPlugin',)
 log = logging.getLogger(__name__)
 CommandResult = namedtuple('CommandResult', 'success result')
 CommandOutput = namedtuple('CommandOutput', 'std_out std_err')
-
+client = pysvn.Client()
 class ChefProvisionerPlugin(BaseProvisionerPlugin):
     """
     ChefProvisionerPlugin takes the majority of its behavior from BaseLinuxProvisionerPlugin
@@ -136,7 +137,6 @@ def curl_download(src, dst):
 def curl_download1(src, dst):
     return 'svn co {0} {1}'.format(src, dst)
 
-
 @command()
 def install_omnibus_chef(chef_version, omnibus_url):
     curl_download(omnibus_url, '/tmp/install-chef.sh')
@@ -154,6 +154,7 @@ def chef_solo(runlist):
 
 @command()
 def fetch_chef_payload(payload_url):
-    curl_download1(payload_url, '/tmp/chef-repo')
+    client.checkout(payload_url, '/tmp/chef-repo')
+#    curl_download1(payload_url, '/tmp/chef-repo')
 
     return 'ls /tmp/chef-repo'.format(payload_url)

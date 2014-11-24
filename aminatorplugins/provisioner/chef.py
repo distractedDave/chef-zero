@@ -155,6 +155,4 @@ def chef_solo(runlist):
 @command()
 def fetch_chef_payload(payload_url):
     client.checkout(payload_url, '/tmp/chef-repo')
-#    curl_download1(payload_url, '/tmp/chef-repo')
-
     return 'ls /tmp/chef-repo'.format(payload_url)

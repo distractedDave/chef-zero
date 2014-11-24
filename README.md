@@ -1,4 +1,4 @@
-chef-solo
+chef-zero
 =========
 
-Chef Solo provisioner plugin
+Chef Zero provisioner plugin

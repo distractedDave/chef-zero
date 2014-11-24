@@ -128,10 +128,13 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
 
         context.package.attributes = { 'name': context.package.arg, 'version': config.get('payload_version'), 'release': config.get('payload_release') }
 
-
 @command()
 def curl_download(src, dst):
     return 'curl {0} -o {1}'.format(src, dst)
+
+@command()
+def curl_download1(src, dst):
+    return 'svn co {0} {1}'.format(src, dst)
 
 
 @command()
@@ -144,13 +147,13 @@ def install_omnibus_chef(chef_version, omnibus_url):
 def chef_solo(runlist):
     # If run list is not specific, dont override it on the command line
     if runlist:
-        return 'chef-solo -j /tmp/node.json -c /tmp/solo.rb -o {0}'.format(runlist)
+        return 'chef-client -z -o {0}'.format(runlist)
     else:
-        return 'chef-solo -j /tmp/node.json -c /tmp/solo.rb'
+        return 'chef-client -z'
 
 
 @command()
 def fetch_chef_payload(payload_url):
-    curl_download(payload_url, '/tmp/chef_payload.tar.gz')
+    curl_download1(payload_url, '/tmp/chef-repo')
 
-    return 'tar -C /tmp -xf /tmp/chef_payload.tar.gz'.format(payload_url)
+    return 'ls /tmp/chef-repo'.format(payload_url)

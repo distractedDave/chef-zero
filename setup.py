@@ -1,17 +1,17 @@
 from setuptools import setup, find_packages
 setup(
-    name = "aminatorplugins_chef_zero",
+    name = "aminatorplugins_chef",
     version = "0.1",
     packages = find_packages(),
     namespace_packages = ( 'aminatorplugins', 'aminatorplugins.provisioner'),
 
     data_files = [
-        ('/etc/aminator/plugins', ['default_conf/aminatorplugins.provisioner.chef_zero.yml']),
+        ('/etc/aminator/plugins', ['default_conf/aminatorplugins.provisioner.chef.yml']),
     ],
 
     entry_points = {
        'aminator.plugins.provisioner': [
-           'chef-zero = aminatorplugins.provisioner.chef_zero:ChefProvisionerPlugin',
+           'chef = aminatorplugins.provisioner.chef:ChefProvisionerPlugin',
        ],
     },
 

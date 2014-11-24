@@ -135,10 +135,6 @@ def curl_download(src, dst):
     return 'curl {0} -o {1}'.format(src, dst)
 
 @command()
-def curl_download1(src, dst):
-    return 'svn co {0} {1}'.format(src, dst)
-
-@command()
 def install_omnibus_chef(chef_version, omnibus_url):
     curl_download(omnibus_url, '/tmp/install-chef.sh')
     return 'bash /tmp/install-chef.sh -v {0}'.format(chef_version)
@@ -148,9 +144,9 @@ def install_omnibus_chef(chef_version, omnibus_url):
 def chef_solo(runlist):
     # If run list is not specific, dont override it on the command line
     if runlist:
-        return 'chef-client -z -o {0}'.format(runlist)
+        return '/opt/chef/bin/chef-zero -o {0}'.format(runlist)
     else:
-        return 'chef-client -z'
+        return '/opt/chef/bin/chef-zero'
 
 
 @command()

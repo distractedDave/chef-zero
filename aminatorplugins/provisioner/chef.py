@@ -144,7 +144,7 @@ def install_omnibus_chef(chef_version, omnibus_url):
 def chef_solo(runlist):
     # If run list is not specific, dont override it on the command line
     if runlist:
-        return '/opt/chef/bin/chef-zero -o {0}'.format(runlist)
+        return '/opt/chef/bin/chef-client --local-mode -o {0}'.format(runlist)
     else:
         return '/opt/chef/bin/chef-zero'
 
@@ -152,4 +152,5 @@ def chef_solo(runlist):
 @command()
 def fetch_chef_payload(payload_url):
     client.checkout(payload_url, '/tmp/chef-repo')
-    return 'ls /tmp/chef-repo'.format(payload_url)
+    return 'cd /tmp/chef-repo'.format(payload_url)
+    return 'knife upload . -z'

@@ -126,6 +126,8 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
         log.debug('Running chef-zero for  items: %s' % config.get('chefenv'))
         return chef_zero(config.get('runlist'), config.get('chefenv'))
 
+    def _error_check(self):
+        return ps_check
 
     def _store_package_metadata(self):
         context = self._config.context
@@ -167,5 +169,4 @@ def chef_zero(runlist, chefenv):
 @command()
 def pscheck():
    ps_tree = '/usr/bin/pstree > pstree.txt'
-   return ps_tree
 

@@ -146,16 +146,20 @@ def install_omnibus_chef(chef_version, omnibus_url):
 
 @command()
 def fetch_chef_payload(payload_url):
+    retval = os.getcwd()
+    print "Directory changed successfully %s" % retval
 #    client = pysvn.Client()
     chef_path = "/tmp/chef-repo"
 #    curl_download(payload_url, chef_path)
 #    client.checkout(payload_url, chef_path)
-    os.system("echo 'payload_url'")
-    os.system("echo 'chef_path' You got a chef path")
-    os.system("mkdir 'chef_path' && cd 'chef_path' && pwd && svn co 'payload_url'") 
+    os.system("echo"+payload_url)
+    os.system("echo"+chef_path +" You got a chef path")
+    buildsvn = "svn co "+payload_url
+    chdir = "cd "+chef_path
+    os.system(chdir && buildsvn) 
     retval = os.getcwd()
     print "Directory changed successfully %s" % retval
-    return 'ls -a'
+    return 'knife upload . -V'
 
     
  
@@ -163,8 +167,7 @@ def fetch_chef_payload(payload_url):
 def chef_zero(runlist, chefenv):
 	# If run list is not specific, dont override it on the command line
     if runlist and chefenv:
-         return '/bin/ps axjf > /tmp/pstree'
-#        return '/opt/chef/bin/chef-client --local-mode -E {1} -o {0}'.format(runlist, chefenv)
+        return '/opt/chef/bin/chef-client --local-mode -E {1} -o {0}'.format(runlist, chefenv)
     else:
         return '/opt/chef/bin/chef-client --local-mode'
 

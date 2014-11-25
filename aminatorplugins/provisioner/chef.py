@@ -148,8 +148,7 @@ def fetch_chef_payload(payload_url):
     chef_path = "/tmp/chef-repo"
 #    curl_download(payload_url, chef_path)
 #    client.checkout(payload_url, chef_path)
-    os.chdir(chef_path)
-    os.system("svn co 'payload_url'") 
+    os.system("mkdir 'chef_path' && cd 'chef_path' && pwd && svn co 'payload_url'") 
     retval = os.getcwd()
     print "Directory changed successfully %s" % retval
     return 'ls -a'

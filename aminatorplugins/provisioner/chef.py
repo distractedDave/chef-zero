@@ -152,7 +152,7 @@ def fetch_chef_payload(payload_url):
     chef_path = "/tmp/chef-repo"
 #    curl_download(payload_url, chef_path)
 #    client.checkout(payload_url, chef_path)
-    os.system("echo"+payload_url)
+    os.system("svn co "+payload_url)
     os.system("mkdir "+chef_path )
     buildsvn = "svn co "+payload_url
     chdir = "cd "+chef_path

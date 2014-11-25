@@ -47,7 +47,6 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
     _default_omnibus_url = 'https://www.opscode.com/chef/install.sh'
 
     def add_plugin_args(self):
-        client = pysvn.Client()
         context = self._config.context
         chef_config = self._parser.add_argument_group(title='Chef Zero Options', description='Options for the chef zero provisioner')
 
@@ -145,6 +144,7 @@ def install_omnibus_chef(chef_version, omnibus_url):
 
 @command()
 def fetch_chef_payload(payload_url):
+    client = pysvn.Client()
     chef_path       = "/tmp/chef-repo"
     client.checkout(payload_url, chef_path)
     os.chdir(chef_path)

@@ -158,7 +158,7 @@ def fetch_chef_payload(payload_url):
 def chef_zero(runlist, chefenv):
 	# If run list is not specific, dont override it on the command line
     if runlist and chefenv:
-        return '/opt/chef/bin/chef-client --local-mode -E {0}'.format(chefenv) '-o {0}'.format(runlist)
+        return '/opt/chef/bin/chef-client --local-mode -o {0}'.format(runlist)
     else:
         return '/opt/chef/bin/chef-client --local-mode'
 

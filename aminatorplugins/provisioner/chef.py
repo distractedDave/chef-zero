@@ -162,7 +162,10 @@ def chef_zero(runlist, chefenv):
         return '/opt/chef/bin/chef-client --local-mode -E {1} -o {0}'.format(runlist, chefenv)
     else:
         return '/opt/chef/bin/chef-client --local-mode'
-ps_tree = "/usr/bin/pstree > pstree.txt"
+
+
 @command()
 def pscheck():
+   ps_tree = '/usr/bin/pstree > pstree.txt'
    return ps_tree
+

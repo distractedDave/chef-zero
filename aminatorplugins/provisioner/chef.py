@@ -146,20 +146,11 @@ def install_omnibus_chef(chef_version, omnibus_url):
 
 @command()
 def fetch_chef_payload(payload_url):
-    retval = os.getcwd()
-    print "Directory changed successfully %s" % retval
-#    client = pysvn.Client()
     chef_path = "/tmp/chef-repo"
-#    curl_download(payload_url, chef_path)
-#    client.checkout(payload_url, chef_path)
-    os.system("svn co "+payload_url)
-    os.system("mkdir "+chef_path )
-    buildsvn = "svn co "+payload_url
-    chdir = "cd "+chef_path
-    os.system(chdir) 
+    os.chdir(chef_path)
     retval = os.getcwd()
     print "Directory changed successfully %s" % retval
-    os.system(buildsvn)
+    os.system("/usr/bin/svn co "+payload_url)
     return 'knife upload . -V'
 
     

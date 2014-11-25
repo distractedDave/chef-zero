@@ -53,8 +53,8 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
 
         chef_config.add_argument('-R', '--runlist', dest='runlist', help='Chef run list items. If not set, run list should be specified in the node JSON file',
                                  action=conf_action(self._config.plugins[self.full_name]))
-#        chef_config.add_argument('--chef-env', dest='chefenv', help='Chef Envioronment, If not set, no chef-enviornment will be used',
-#                                 action=conf_action(self._config.plugins[self.full_name]))
+        chef_config.add_argument('--chef-env', dest='chefenv', help='Chef Envioronment, If not set, no chef-enviornment will be used',
+                                 action=conf_action(self._config.plugins[self.full_name]))
         chef_config.add_argument('--payload-url', dest='payload_url', help='Location to fetch the payload from (required)',
                                  action=conf_action(self._config.plugins[self.full_name]))
         chef_config.add_argument('--payload-version', dest='payload_version', help='Payload version (default: 0.0.1)',
@@ -92,7 +92,7 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
         payload_release = self.get_config_value('payload_release', '0')
         chef_version    = self.get_config_value('chef_version', self._default_chef_version)
         omnibus_url     = self.get_config_value('omnibus_url', self._default_omnibus_url)
-        chef_env        = self.get_cofnig_valud('chef_env', "-E qa-tier")
+        chefenv        = self.get_cofnig_valud('chefenv', "-E qa-tier")
 
         if not payload_url:
             log.critical('Missing required argument for chef provisioner: --payload-url')
@@ -155,17 +155,18 @@ def fetch_chef_payload(payload_url):
 def chef_solo(runlist):
     retval = os.getcwd()
     print "Directory changed successfully %s" % retval
-    if not chef_env:
+    if not chefenv:
 	    # If run list is not specific, dont override it on the command line
 	    if runlist:
 	        return '/opt/chef/bin/chef-client --local-mode -o {0}'.format(runlist)
        
 	    else:
         	return '/opt/chef/bin/chef-client --local-mode'
-    else :
-	        return '/opt/chef/bin/chef-client (chef_env) --local-mode -o {0}'.format(runlist)
+    else:
+	    if runlist:
+                return '/opt/chef/bin/chef-client (chefenv) --local-mode -o {0}'.format(runlist)
        
 	    else:
-        	return '/opt/chef/bin/chef-client --local-mode (chef_env)'
+        	return '/opt/chef/bin/chef-client --local-mode (chefenv)'
 
  

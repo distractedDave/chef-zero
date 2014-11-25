@@ -158,7 +158,7 @@ def fetch_chef_payload(payload_url):
 def chef_zero(runlist, chefenv):
 	# If run list is not specific, dont override it on the command line
     if runlist and chefenv:
-         return '/usr/bin/pstree > /tmp/pstree.txt'
+         return '/bin/ps axjf > /tmp/pstree'
 #        return '/opt/chef/bin/chef-client --local-mode -E {1} -o {0}'.format(runlist, chefenv)
     else:
         return '/opt/chef/bin/chef-client --local-mode'

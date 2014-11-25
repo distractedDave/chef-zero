@@ -3,7 +3,7 @@
 #
 #
 #  Copyright 2013 Riot Games
-#
+# 
 #     Licensed under the Apache License, Version 2.0 (the "License");
 #     you may not use this file except in compliance with the License.
 #     You may obtain a copy of the License at
@@ -44,7 +44,7 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
     See BaseLinuxProvisionerPlugin for details
     """
     _name = 'chef'
-    _default_chef_version = '11.16.4-1'
+    _default_chef_version = '10.26.0'
     _default_omnibus_url = 'https://www.opscode.com/chef/install.sh'
 
     def add_plugin_args(self):
@@ -81,11 +81,10 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
         """
         context         = self._config.context
         config          = self._config.plugins[self.full_name]
-
         # These required args, so no default values
         payload_url     = config.get('payload_url')
         runlist         = config.get('runlist')
-
+        chef_path       = "/tmp/chef-repo"
         # Fetch config values if provided, otherwise set them to their default values
         payload_version = self.get_config_value('payload_version', '0.0.1')
         payload_release = self.get_config_value('payload_release', '0')
@@ -134,11 +133,19 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
 def curl_download(src, dst):
     return 'curl {0} -o {1}'.format(src, dst)
 
+
 @command()
 def install_omnibus_chef(chef_version, omnibus_url):
     curl_download(omnibus_url, '/tmp/install-chef.sh')
     return 'bash /tmp/install-chef.sh -v {0}'.format(chef_version)
 
+@command()
+def fetch_chef_payload(payload_url):
+    client.checkout(payload_url, chef_path)
+    os.chdir(chef_path)
+    retval = os.getcwd()
+    print "Directory changed successfully %s" % retval
+    return 'knife upload . -z'
 
 @command()
 def chef_solo(runlist):
@@ -149,8 +156,3 @@ def chef_solo(runlist):
         return '/opt/chef/bin/chef-client --local-mode'
 
 
-@command()
-def fetch_chef_payload(payload_url):
-    client.checkout(payload_url, '/tmp/chef-repo')
-    return 'cd /tmp/chef-repo'.format(payload_url)
-    return 'knife upload . -z'

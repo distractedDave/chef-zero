@@ -14,8 +14,7 @@ chroot_mounts:
     - [/dev, bind, /dev, null]
     - [devpts, devpts, /dev/pts, null]
     - [binfmt_misc, binfmt_misc, /proc/sys/fs/binfmt_misc, null]
-
+    
 provision_configs: true
 provision_config_files:
   - /etc/resolv.conf
-  - /tmp/chef-repo

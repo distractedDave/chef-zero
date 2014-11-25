@@ -124,8 +124,7 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
 
         log.debug('Running chef-zero for run list items: %s' % config.get('runlist'))
         log.debug('Running chef-zero for  items: %s' % config.get('chefenv'))
-        return chef_zero(config.get('runlist'))
-        return chef_zero(config.get('chefenv'))
+        return chef_zero(config.get('runlist'), config.get('chefenv'))
 
 
     def _store_package_metadata(self):
@@ -153,16 +152,13 @@ def fetch_chef_payload(payload_url):
     print "Directory changed successfully %s" % retval
     return 'knife upload . -z'
 
+    
  
 @command()
-def chef_zero(runlist):
-    retval = os.getcwd()
-    print "Directory changed successfully %s" % retval
-    
-
+def chef_zero(runlist, chefenv):
 	# If run list is not specific, dont override it on the command line
-    if runlist:
-        return '/opt/chef/bin/chef-client --local-mode -E %s' % config.get('chefenv') '-o {0}'.format(runlist)
+    if runlist and chefenv:
+        return '/opt/chef/bin/chef-client --local-mode -E {1}'.format(chefenv)' -o {0}'.format(runlist)
     else:
         return '/opt/chef/bin/chef-client --local-mode'
 

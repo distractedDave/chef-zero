@@ -162,7 +162,7 @@ def chef_zero(runlist):
 
 	# If run list is not specific, dont override it on the command line
     if runlist:
-        return '/opt/chef/bin/chef-client  --local-mode -E %s' % config.get('chefenv') ' -o {0}'.format(runlist)
+        return '/opt/chef/bin/chef-client --local-mode -E %s' % chefenv ' -o {0}'.format(runlist)
     else:
-        return '/opt/chef/bin/chef-client --local-mode -E %s' % config.get('chefenv')
+        return '/opt/chef/bin/chef-client --local-mode -E %s' % chefenv
 

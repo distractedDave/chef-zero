@@ -156,14 +156,13 @@ def fetch_chef_payload(payload_url):
 @command()
 def chef_zero(runlist):
     retval = os.getcwd()
+    chefenv = chef_zero(config.get('chefenv'))
     print "Directory changed successfully %s" % retval
     
 
 	# If run list is not specific, dont override it on the command line
     if runlist:
-        return '/opt/chef/bin/chef-client  --local-mode -E config.get('chefenv') -o {0}'.format(runlist)
-        return chef_zero(config.get('chefenv'))
+        return '/opt/chef/bin/chef-client  --local-mode -E %s' % config.get('chefenv') ' -o {0}'.format(runlist)
     else:
-        return '/opt/chef/bin/chef-client --local-mode -E config.get('chefenv')'
-        return chef_zero(config.get('chefenv'))
+        return '/opt/chef/bin/chef-client --local-mode -E %s' % config.get('chefenv')
 

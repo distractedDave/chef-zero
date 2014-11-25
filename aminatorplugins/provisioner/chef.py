@@ -153,9 +153,6 @@ def fetch_chef_payload(payload_url):
     print "Directory changed successfully %s" % retval
     return 'knife upload . -z'
 
-@command()
-def chef_zero(chefenv):
-    print "CHEF HAS THE ENVIRONMENT %s" % chefenv
  
 @command()
 def chef_zero(runlist):
@@ -165,7 +162,7 @@ def chef_zero(runlist):
 
 	# If run list is not specific, dont override it on the command line
     if runlist:
-        return '/opt/chef/bin/chef-client --local-mode -E -o {0}'.format(runlist)
+        return '/opt/chef/bin/chef-client --local-mode -E %s' % config.get('chefenv') '-o {0}'.format(runlist)
     else:
         return '/opt/chef/bin/chef-client --local-mode'
 

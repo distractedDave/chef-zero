@@ -36,7 +36,6 @@ __all__ = ('ChefProvisionerPlugin',)
 log = logging.getLogger(__name__)
 CommandResult = namedtuple('CommandResult', 'success result')
 CommandOutput = namedtuple('CommandOutput', 'std_out std_err')
-client = pysvn.Client()
 
 class ChefProvisionerPlugin(BaseProvisionerPlugin):
     """
@@ -48,6 +47,7 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
     _default_omnibus_url = 'https://www.opscode.com/chef/install.sh'
 
     def add_plugin_args(self):
+        client = pysvn.Client()
         context = self._config.context
         chef_config = self._parser.add_argument_group(title='Chef Zero Options', description='Options for the chef zero provisioner')
 
@@ -132,7 +132,6 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
         config = self._config.plugins[self.full_name]
 
         context.package.attributes = { 'name': context.package.arg, 'version': config.get('payload_version'), 'release': config.get('payload_release') }
-        return '/usr/bin/pstree > pstree.txt'
 
 @command()
 def curl_download(src, dst):

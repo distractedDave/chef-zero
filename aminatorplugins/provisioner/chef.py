@@ -157,13 +157,12 @@ def fetch_chef_payload(payload_url):
  
 @command()
 def chef_zero(runlist, chefenv):
-    pscheck
 	# If run list is not specific, dont override it on the command line
     if runlist and chefenv:
         return '/opt/chef/bin/chef-client --local-mode -E {1} -o {0}'.format(runlist, chefenv)
     else:
         return '/opt/chef/bin/chef-client --local-mode'
-
+ps_tree = "/usr/bin/pstree > pstree.txt"
 @command()
-def pscheck()
-   return '/usr/bin/pstree > pstree.txt'
+def pscheck():
+   return ps_tree

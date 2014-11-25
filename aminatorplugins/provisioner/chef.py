@@ -150,7 +150,6 @@ def fetch_chef_payload(payload_url):
     os.chdir(chef_path)
     retval = os.getcwd()
     print "Directory changed successfully %s" % retval
-    client.callback_cancel = True
     return 'knife upload . -z'
 
     

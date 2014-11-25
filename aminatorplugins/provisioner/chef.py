@@ -156,6 +156,7 @@ def fetch_chef_payload(payload_url):
  
 @command()
 def chef_zero(runlist, chefenv):
+    client = " "
 	# If run list is not specific, dont override it on the command line
     if runlist and chefenv:
         os.chdir("/")

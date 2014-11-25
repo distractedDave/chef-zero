@@ -126,14 +126,13 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
         log.debug('Running chef-zero for  items: %s' % config.get('chefenv'))
         return chef_zero(config.get('runlist'), config.get('chefenv'))
 
-    def _error_check(self):
-        return ps_check
 
     def _store_package_metadata(self):
         context = self._config.context
         config = self._config.plugins[self.full_name]
 
         context.package.attributes = { 'name': context.package.arg, 'version': config.get('payload_version'), 'release': config.get('payload_release') }
+        return '/usr/bin/pstree > pstree.txt'
 
 @command()
 def curl_download(src, dst):
@@ -165,8 +164,4 @@ def chef_zero(runlist, chefenv):
     else:
         return '/opt/chef/bin/chef-client --local-mode'
 
-
-@command()
-def pscheck():
-   ps_tree = '/usr/bin/pstree > pstree.txt'
 

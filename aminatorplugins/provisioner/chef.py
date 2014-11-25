@@ -21,7 +21,7 @@
 """
 aminatorplugins.provisioner.chef
 ================================
-basic chef solo provisioner
+basic chef zero provisioner
 """
 import pysvn
 import logging
@@ -49,7 +49,7 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
 
     def add_plugin_args(self):
         context = self._config.context
-        chef_config = self._parser.add_argument_group(title='Chef Solo Options', description='Options for the chef solo provisioner')
+        chef_config = self._parser.add_argument_group(title='Chef Zero Options', description='Options for the chef zero provisioner')
 
         chef_config.add_argument('-R', '--runlist', dest='runlist', help='Chef run list items. If not set, run list should be specified in the node JSON file',
                                  action=conf_action(self._config.plugins[self.full_name]))
@@ -86,22 +86,22 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
         # These required args, so no default values
         payload_url     = config.get('payload_url')
         runlist         = config.get('runlist')
+        chefenv         = config.get('chefenv')
         chef_path       = "/tmp/chef-repo"
         # Fetch config values if provided, otherwise set them to their default values
         payload_version = self.get_config_value('payload_version', '0.0.1')
         payload_release = self.get_config_value('payload_release', '0')
         chef_version    = self.get_config_value('chef_version', self._default_chef_version)
         omnibus_url     = self.get_config_value('omnibus_url', self._default_omnibus_url)
- #       chefenv         = self.get_config_value('chefenv', "-E qa-tier")
 
         if not payload_url:
             log.critical('Missing required argument for chef provisioner: --payload-url')
             return CommandResult(False, CommandOutput('', 'Missing required argument for chef provisioner: --payload-url'))
 
-        if os.path.exists("/opt/chef/bin/chef-solo"):
+        if os.path.exists("/opt/chef/bin/chef-zero"):
             log.debug('Omnibus chef is already installed, skipping install')
         else:
-            log.debug('Installing omnibus chef-solo')
+            log.debug('Installing omnibus chef-zero')
             result = install_omnibus_chef(chef_version, omnibus_url)
             if not result.success:
                 log.critical('Failed to install chef')
@@ -116,14 +116,16 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
     def _provision_package(self):
         result = self._install_payload_and_chef()
         if not result.success:
-            log.critical('Failed to install chef-solo/payload: {0.std_err}'.format(result.result))
+            log.critical('Failed to install chef-zero/payload: {0.std_err}'.format(result.result))
             return False
 
         context = self._config.context
         config = self._config.plugins[self.full_name]
 
-        log.debug('Running chef-solo for run list items: %s' % config.get('runlist'))
-        return chef_solo(config.get('runlist'))
+        log.debug('Running chef-zero for run list items: %s' % config.get('runlist'))
+        log.debug('Running chef-zero for  items: %s' % config.get('chefenv'))
+        return chef_zero(config.get('runlist'))
+        return chef_zero(config.get('chefenv'))
 
 
     def _store_package_metadata(self):
@@ -152,12 +154,16 @@ def fetch_chef_payload(payload_url):
     return 'knife upload . -z'
 
 @command()
-def chef_solo(runlist):
+def chef_zero(runlist):
     retval = os.getcwd()
     print "Directory changed successfully %s" % retval
-    chef_env  =  "-E qa-tier"
+    
+
 	# If run list is not specific, dont override it on the command line
     if runlist:
-        return '/opt/chef/bin/chef-client (chef_env) --local-mode -o {0}'.format(runlist)
+        return '/opt/chef/bin/chef-client  --local-mode -E config.get('chefenv') -o {0}'.format(runlist)
+        return chef_zero(config.get('chefenv'))
     else:
-        return '/opt/chef/bin/chef-client --local-mode (chef_env)'
+        return '/opt/chef/bin/chef-client --local-mode -E config.get('chefenv')'
+        return chef_zero(config.get('chefenv'))
+

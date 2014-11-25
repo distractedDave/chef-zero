@@ -53,6 +53,8 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
 
         chef_config.add_argument('-R', '--runlist', dest='runlist', help='Chef run list items. If not set, run list should be specified in the node JSON file',
                                  action=conf_action(self._config.plugins[self.full_name]))
+#        chef_config.add_argument('--chef-env', dest='chefenv', help='Chef Envioronment, If not set, no chef-enviornment will be used',
+#                                 action=conf_action(self._config.plugins[self.full_name]))
         chef_config.add_argument('--payload-url', dest='payload_url', help='Location to fetch the payload from (required)',
                                  action=conf_action(self._config.plugins[self.full_name]))
         chef_config.add_argument('--payload-version', dest='payload_version', help='Payload version (default: 0.0.1)',
@@ -90,6 +92,7 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
         payload_release = self.get_config_value('payload_release', '0')
         chef_version    = self.get_config_value('chef_version', self._default_chef_version)
         omnibus_url     = self.get_config_value('omnibus_url', self._default_omnibus_url)
+        chef_env        = self.get_cofnig_valud('chef_env', "-E qa-tier")
 
         if not payload_url:
             log.critical('Missing required argument for chef provisioner: --payload-url')
@@ -154,7 +157,8 @@ def chef_solo(runlist):
     print "Directory changed successfully %s" % retval
     # If run list is not specific, dont override it on the command line
     if runlist:
-        return '/opt/chef/bin/chef-client --local-mode -o {0}'.format(runlist)
+        return '/opt/chef/bin/chef-client --local-mode {0}'.format(chef_env) -o {0}'.format(runlist)
+       
     else:
         return '/opt/chef/bin/chef-client --local-mode'
 

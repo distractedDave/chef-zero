@@ -92,7 +92,7 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
         payload_release = self.get_config_value('payload_release', '0')
         chef_version    = self.get_config_value('chef_version', self._default_chef_version)
         omnibus_url     = self.get_config_value('omnibus_url', self._default_omnibus_url)
-        chefenv         = self.get_config_value('chefenv', "-E qa-tier")
+ #       chefenv         = self.get_config_value('chefenv', "-E qa-tier")
 
         if not payload_url:
             log.critical('Missing required argument for chef provisioner: --payload-url')
@@ -155,18 +155,9 @@ def fetch_chef_payload(payload_url):
 def chef_solo(runlist):
     retval = os.getcwd()
     print "Directory changed successfully %s" % retval
-    if not chefenv:
-	    # If run list is not specific, dont override it on the command line
-	    if runlist:
-	        return '/opt/chef/bin/chef-client --local-mode -o {0}'.format(runlist)
-       
-	    else:
-        	return '/opt/chef/bin/chef-client --local-mode'
+    chef_env  =  "-E qa-tier"
+	# If run list is not specific, dont override it on the command line
+    if runlist:
+        return '/opt/chef/bin/chef-client (chef_env) --local-mode -o {0}'.format(runlist)
     else:
-	    if runlist:
-                return '/opt/chef/bin/chef-client (chefenv) --local-mode -o {0}'.format(runlist)
-       
-	    else:
-        	return '/opt/chef/bin/chef-client --local-mode (chefenv)'
-
- 
+        return '/opt/chef/bin/chef-client --local-mode (chef_env)'

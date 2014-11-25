@@ -44,7 +44,7 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
     See BaseLinuxProvisionerPlugin for details
     """
     _name = 'chef'
-    _default_chef_version = '10.26.0'
+    _default_chef_version = '11.16.4-1'
     _default_omnibus_url = 'https://www.opscode.com/chef/install.sh'
 
     def add_plugin_args(self):
@@ -146,7 +146,7 @@ def chef_solo(runlist):
     if runlist:
         return '/opt/chef/bin/chef-client --local-mode -o {0}'.format(runlist)
     else:
-        return '/opt/chef/bin/chef-zero'
+        return '/opt/chef/bin/chef-client --local-mode'
 
 
 @command()

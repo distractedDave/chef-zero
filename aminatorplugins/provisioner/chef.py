@@ -92,7 +92,7 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
         payload_release = self.get_config_value('payload_release', '0')
         chef_version    = self.get_config_value('chef_version', self._default_chef_version)
         omnibus_url     = self.get_config_value('omnibus_url', self._default_omnibus_url)
-        chefenv         = self.get_cofnig_value('chefenv', "-E qa-tier")
+        chefenv         = self.get_config_value('chefenv', "-E qa-tier")
 
         if not payload_url:
             log.critical('Missing required argument for chef provisioner: --payload-url')

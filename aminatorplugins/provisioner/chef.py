@@ -156,7 +156,7 @@ def fetch_chef_payload(payload_url):
     os.system("echo"+chef_path +" You got a chef path")
     buildsvn = "svn co "+payload_url
     chdir = "cd "+chef_path
-    os.system(chdir && buildsvn) 
+    os.system(chdir "&&" buildsvn) 
     retval = os.getcwd()
     print "Directory changed successfully %s" % retval
     return 'knife upload . -V'

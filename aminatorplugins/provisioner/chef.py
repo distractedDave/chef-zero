@@ -147,10 +147,12 @@ def install_omnibus_chef(chef_version, omnibus_url):
 @command()
 def fetch_chef_payload(payload_url):
     chef_path = "/tmp/chef-repo"
-    os.chdir(chef_path)
     retval = os.getcwd()
     print "Directory changed successfully %s" % retval
     client.export(payload_url, chef_path)
+    os.chdir(chef_path)
+    retval = os.getcwd()
+    print "Directory changed successfully %s" % retval
     return 'knife upload . -V'
 
     

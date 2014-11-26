@@ -36,7 +36,6 @@ __all__ = ('ChefProvisionerPlugin',)
 log = logging.getLogger(__name__)
 CommandResult = namedtuple('CommandResult', 'success result')
 CommandOutput = namedtuple('CommandOutput', 'std_out std_err')
-client = pysvn.Client()
 
 class ChefProvisionerPlugin(BaseProvisionerPlugin):
     """
@@ -146,7 +145,6 @@ def install_omnibus_chef(chef_version, omnibus_url):
 @command()
 def fetch_chef_payload(payload_url):
     chef_path       = "/tmp/chef-repo"
-    client.export(payload_url, chef_path, force=True)
     os.chdir(chef_path)
     retval = os.getcwd()
     print "Directory changed successfully %s" % retval

@@ -7,7 +7,7 @@ setup(
 
     data_files = [
         ('/etc/aminator/plugins/distro', ['default_conf/aminator.plugins.distro.redhat.yml']),
-        ('/etc/aminator/plugins', ['default_conf/aminatorplugins.provisioner.chef.yml']),
+        ('/etc/aminator/plugins', ['default_conf/aminator.plugins.provisioner.chef.yml']),
     ],
 
     entry_points = {

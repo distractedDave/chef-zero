@@ -150,6 +150,7 @@ def fetch_chef_payload(payload_url):
     chef_path = "/tmp/chef-repo"
     retval = os.getcwd()
     print "starting the svn export process %s" % retval
+    os.mkdir(chef_path)
     os.chdir(chef_path)
     client.export(payload_url, chef_path)
     retval = os.getcwd()

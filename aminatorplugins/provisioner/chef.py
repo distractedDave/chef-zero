@@ -146,6 +146,7 @@ def install_omnibus_chef(chef_version, omnibus_url):
 
 @command()
 def fetch_chef_payload(payload_url):
+    client = pysvn.Client()
     chef_path = "/tmp/chef-repo"
     retval = os.getcwd()
     print "Directory changed successfully %s" % retval

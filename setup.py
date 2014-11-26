@@ -6,7 +6,6 @@ setup(
     namespace_packages = ( 'aminatorplugins', 'aminatorplugins.provisioner'),
 
     data_files = [
-        ('/etc/aminator/plugins/distro', ['default_conf/aminator.plugins.distro.redhat.yml']),
         ('/etc/aminator/plugins', ['default_conf/aminator.plugins.provisioner.chef.yml']),
     ],
 

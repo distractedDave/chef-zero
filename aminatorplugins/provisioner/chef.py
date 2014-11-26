@@ -146,11 +146,11 @@ def install_omnibus_chef(chef_version, omnibus_url):
 
 @command()
 def fetch_chef_payload(payload_url):
+    chef_path = "/tmp/chef-repo"
     client = pysvn.Client()
     retval = os.getcwd()
     print "starting the svn export process %s" % retval
     client.checkout(payload_url, chef_path)
-    chef_path = "/tmp/chef-repo"
     os.chdir(chef_path)
     retval = os.getcwd()
     print "Directory changed successfully %s" % retval

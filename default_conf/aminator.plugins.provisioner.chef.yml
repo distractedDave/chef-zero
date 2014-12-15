@@ -9,7 +9,6 @@ short_circuit_files:
 # fstab-esque list of mounts for a chroot environment. ordered.
 # [device, type, mount point, options]
 chroot_mounts:
-    - [/tmp/chef-repo, ext4, /tmp/chef-repo, null]
     - [proc, proc, /proc, null]
     - [sysfs, sysfs, /sys, null]
     - [/dev, bind, /dev, null]

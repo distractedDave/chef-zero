@@ -86,7 +86,7 @@ class ChefProvisionerPlugin(BaseProvisionerPlugin):
         payload_url     = config.get('payload_url')
         runlist         = config.get('runlist')
         chefenv         = config.get('chefenv')
-        chef_path       = "/home/chef-repo"
+        chef_path       = "/tmp/chef-repo"
         # Fetch config values if provided, otherwise set them to their default values
         payload_version = self.get_config_value('payload_version', '0.0.1')
         payload_release = self.get_config_value('payload_release', '0')
@@ -144,7 +144,7 @@ def install_omnibus_chef(chef_version, omnibus_url):
 
 @command()
 def fetch_chef_payload(payload_url):
-    chef_path       = "/home/chef-repo"
+    chef_path       = "/tmp/chef-repo"
     os.chdir(chef_path)
     retval = os.getcwd()
     print "Directory changed successfully %s" % retval
